@@ -1,0 +1,25 @@
+# Data & ML
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+minisom
+
+# Database
+sqlalchemy
+psycopg2-binary
+
+# RAG / LLM Stack
+langchain
+langchain-community
+transformers
+torch
+sentence-transformers
+chromadb
+
+# Document Processing
+pypdf
+
+# Frontend
+streamlit
