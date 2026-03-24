@@ -2,27 +2,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker,Session
 from database.schemas import Base
 import os
-"""
-from config.settings import (
-    DB_NAME,DB_HOST,DB_PASSWORD,DB_PORT,DB_USER,DB_POOL_SIZE,DB_MAX_OVERFLOW,DB_ECHO
-)
-"""
+
+from config.settings import DATABASE_URL,DB_POOL_SIZE,DB_MAX_OVERFLOW,DB_ECHO
 import logging as logger
 logger.basicConfig(logger.INFO)
 from contextlib import contextmanager
-from dotenv import load_dotenv
-load_dotenv()
 
-db_url= os.getenv("DATABASE_URL")
-
-DB_POOL_SIZE = 5
-DB_MAX_OVERFLOW = 10
-DB_ECHO = True   # while developing
 class DatabaseConnection:
 
     def __init__(self):
         self.localSession=None
-        self.db_url=db_url
+        self.db_url=DATABASE_URL
         self.engine=self.init_db()
 
     def init_db(self):
@@ -52,15 +42,3 @@ class DatabaseConnection:
             session.close()
 
             
-"""
-if __name__ == "__main__":
-    import uuid
-    from datetime import datetime
-    from database.schemas import Accounts  
-    import  logging  as logger
-    logger.basicConfig(logger.INFO)
-
-    # Initialize the database connection
-    db = DatabaseConnection()
-"""
-    
