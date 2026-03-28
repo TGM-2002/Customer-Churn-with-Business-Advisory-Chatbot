@@ -5,7 +5,11 @@ import os
 
 from config.settings import DATABASE_URL,DB_POOL_SIZE,DB_MAX_OVERFLOW,DB_ECHO
 import logging as logger
-logger.basicConfig(logger.INFO)
+logger.basicConfig(
+    level=logger.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 from contextlib import contextmanager
 
 class DatabaseConnection:
@@ -22,7 +26,7 @@ class DatabaseConnection:
             self.localSession=sessionmaker(bind=self.engine,expire_on_commit=False)
             from database.schemas import Base
             Base.metadata.create_all(bind=self.engine)
-            logger.success("Database Initialized")
+            logger.info("Database Initialized")
             return self.engine
         except Exception as e:
             logger.error(f"Failed to Initialize DB:{e}")

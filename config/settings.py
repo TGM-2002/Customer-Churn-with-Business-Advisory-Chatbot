@@ -29,7 +29,10 @@ DB_USER=os.getenv("DB_USER")
 DB_PASSWORD=os.getenv("DB_PASSWORD")
 DATABASE_URL=os.getenv("DATABASE_URL")
 
-DB_POOL_SIZE = os.getenv("DB_POOL_SIZE")
-DB_MAX_OVERFLOW = os.getenv("DB_MAX_OVERFLOW ")
-DB_ECHO = os.getenv("DB_ECHO")
+
+
+
+DB_POOL_SIZE    = int(os.getenv("DB_POOL_SIZE", 5))       # cast to int
+DB_MAX_OVERFLOW = int(os.getenv("DB_MAX_OVERFLOW", 10))   # cast to int
+DB_ECHO         = os.getenv("DB_ECHO", "false").lower() == "true"  # cast to bool
 
