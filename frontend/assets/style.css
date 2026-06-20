@@ -1,0 +1,522 @@
+/* ============================================================
+   ChurnWatch — Light Theme
+   ============================================================ */
+
+/* ---- Global ---- */
+html, body, .stApp {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    background-color: #f5f6fa !important;
+    color: #1e1f2e;
+}
+
+/* ---- Hide Streamlit default chrome ---- */
+#MainMenu            { visibility: hidden; }
+footer               { visibility: hidden; }
+header               { visibility: hidden; }
+.stDeployButton      { display: none; }
+[data-testid="collapsedControl"] { display: none; }
+
+/* ---- Main content container ---- */
+.block-container {
+    padding-top: 2rem !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    max-width: 100% !important;
+}
+
+/* ---- Sidebar ---- */
+[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e4e5f0 !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stSidebarContent"] {
+    overflow-y: hidden !important;
+    background-color: #ffffff !important;
+    padding: 0 !important;
+}
+
+/* Sidebar nav container */
+[data-testid="stSidebarNavItems"] {
+    padding: 4px 8px !important;
+}
+
+/* Sidebar nav links */
+[data-testid="stSidebarNavLink"] {
+    border-radius: 8px !important;
+    padding: 7px 10px !important;
+    margin-bottom: 2px !important;
+    color: #6b6c80 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    transition: background 0.15s, color 0.15s !important;
+    border-left: 2px solid transparent !important;
+}
+
+[data-testid="stSidebarNavLink"]:hover {
+    background-color: #f0f1f8 !important;
+    color: #1e1f2e !important;
+}
+
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+    background-color: rgba(77,138,126,0.1) !important;
+    color: #1e1f2e !important;
+    font-weight: 500 !important;
+    border-left: 2px solid #4d8a7e !important;
+}
+
+/* Sidebar nav icons */
+[data-testid="stSidebarNavLink"] svg {
+    color: #a0a1b0 !important;
+}
+
+[data-testid="stSidebarNavLink"][aria-current="page"] svg {
+    color: #4d8a7e !important;
+}
+
+/* ---- Sidebar brand block ---- */
+.cw-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 18px 18px;
+    border-bottom: 1px solid #e8e9f2;
+    margin-bottom: 6px;
+}
+
+.cw-logo-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(77,138,126,0.12);
+    border: 1px solid rgba(77,138,126,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.cw-brand-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e1f2e;
+    letter-spacing: 0.01em;
+}
+
+/* ---- Sidebar user block ---- */
+.cw-sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-top: 1px solid #e8e9f2;
+    margin-top: auto;
+}
+
+.cw-user-av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(77,138,126,0.12);
+    border: 1px solid rgba(77,138,126,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #4d8a7e;
+    flex-shrink: 0;
+}
+
+.cw-user-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e1f2e;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.cw-user-role {
+    font-size: 10px;
+    color: #a0a1b0;
+    margin: 0;
+}
+
+.cw-sidebar-ver {
+    font-size: 10px;
+    color: #c8c9d8;
+    text-align: center;
+    padding: 6px 0 10px;
+}
+
+/* ---- Section label ---- */
+.cw-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #b0b1c0;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+/* ---- Page header ---- */
+.cw-page-header {
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e8e9f2;
+}
+
+.cw-page-title {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #1e1f2e !important;
+    margin: 0 0 3px 0 !important;
+}
+
+.cw-page-subtitle {
+    font-size: 12px !important;
+    color: #a0a1b0 !important;
+    margin: 0 !important;
+}
+
+/* ---- Metric cards ---- */
+[data-testid="metric-container"] {
+    background-color: #ffffff !important;
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stMetricLabel"] > div {
+    font-size: 10px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+    color: #a0a1b0 !important;
+    font-weight: 400 !important;
+}
+
+[data-testid="stMetricValue"] > div {
+    font-size: 26px !important;
+    font-weight: 300 !important;
+    color: #1e1f2e !important;
+}
+
+[data-testid="stMetricDelta"] svg { display: none !important; }
+
+/* ---- Card container ---- */
+.cw-card {
+    background: #ffffff;
+    border: 1px solid #e4e5f0;
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+}
+
+.cw-card-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #a0a1b0;
+    margin-bottom: 16px;
+}
+
+/* ---- Risk badges ---- */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.badge-critical { background: #fef1ef; color: #b85a48; }
+.badge-high     { background: #fef5e8; color: #b08040; }
+.badge-medium   { background: #eef2fc; color: #5a7abf; }
+.badge-low      { background: #edf7f0; color: #4a8a5a; }
+
+.seg-affluent { background: #f0eeff; color: #5848b0; }
+.seg-mid      { background: #eef2fc; color: #5a7abf; }
+.seg-mass     { background: #edf7f0; color: #4a8a5a; }
+
+/* ---- Activity feed ---- */
+.cw-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.cw-activity-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f1f8;
+}
+
+.cw-activity-item:last-child { border-bottom: none; }
+
+.cw-act-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.cw-act-text {
+    font-size: 12px;
+    color: #3a3b50;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.cw-act-time {
+    font-size: 10px;
+    color: #c0c1d0;
+    margin: 2px 0 0;
+}
+
+/* ---- Risk list items ---- */
+.cw-risk-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f1f8;
+}
+
+.cw-risk-item:last-child { border-bottom: none; }
+
+.cw-risk-av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.cw-risk-name {
+    font-size: 12px;
+    color: #1e1f2e;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.cw-risk-meta {
+    font-size: 10px;
+    color: #a0a1b0;
+    margin: 0;
+}
+
+.cw-risk-score {
+    font-size: 14px;
+    font-weight: 300;
+    margin-left: auto;
+}
+
+/* ---- Customer table overrides ---- */
+[data-testid="stDataFrame"] {
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+[data-testid="stDataFrame"] thead th {
+    background-color: #f8f9fc !important;
+    color: #a0a1b0 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.07em !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid #e4e5f0 !important;
+}
+
+[data-testid="stDataFrame"] tbody td {
+    font-size: 12px !important;
+    color: #3a3b50 !important;
+    border-bottom: 1px solid #f0f1f8 !important;
+}
+
+[data-testid="stDataFrame"] tbody tr:hover td {
+    background-color: #fafbff !important;
+}
+
+/* ---- Inputs and selects ---- */
+.stTextInput > div > div > input {
+    background: #ffffff !important;
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    color: #1e1f2e !important;
+    padding: 7px 10px !important;
+}
+
+.stTextInput > div > div > input:focus {
+    border-color: #4d8a7e !important;
+    box-shadow: 0 0 0 2px rgba(77,138,126,0.12) !important;
+}
+
+.stSelectbox > div > div {
+    background: #ffffff !important;
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    color: #1e1f2e !important;
+}
+
+.stMultiSelect > div {
+    background: #ffffff !important;
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 8px !important;
+}
+
+/* ---- Buttons ---- */
+.stButton > button {
+    background: none !important;
+    border: 1px solid #e4e5f0 !important;
+    border-radius: 8px !important;
+    color: #4d8a7e !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    transition: all 0.15s !important;
+    padding: 6px 16px !important;
+}
+
+.stButton > button:hover {
+    background: rgba(77,138,126,0.08) !important;
+    border-color: #4d8a7e !important;
+}
+
+/* ---- Divider ---- */
+hr {
+    border: none !important;
+    border-top: 1px solid #e8e9f2 !important;
+    margin: 20px 0 !important;
+}
+
+/* ---- Advisory panel ---- */
+.adv-why-box {
+    background: #fff7f5;
+    border-left: 3px solid #c06858;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #3a3b50;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.adv-flag-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.adv-flag {
+    font-size: 11px;
+    padding: 4px 11px;
+    border-radius: 20px;
+}
+
+.adv-step-card {
+    background: #ffffff;
+    border: 1px solid #e4e5f0;
+    border-radius: 10px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color 0.15s;
+}
+
+.adv-step-card:hover { border-color: #b0d0c8; }
+
+.adv-step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid #d8d9e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #a0a1b0;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.adv-step-text {
+    font-size: 13px;
+    color: #3a3b50;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.adv-step-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.adv-stat-card {
+    background: #f8f9fc;
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-align: center;
+}
+
+.adv-stat-val {
+    font-size: 18px;
+    font-weight: 300;
+    color: #1e1f2e;
+    margin: 0 0 3px;
+}
+
+.adv-stat-lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #a0a1b0;
+    margin: 0;
+}
+
+/* ---- Plotly charts ---- */
+.stPlotlyChart {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ---- Progress bar ---- */
+.cw-progress-track {
+    height: 4px;
+    background: #e8e9f2;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.cw-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: #4d8a7e;
+    transition: width 0.4s;
+}
+
+/* ---- Horizontal rule in sidebar ---- */
+.cw-sb-divider {
+    border: none;
+    border-top: 1px solid #e8e9f2;
+    margin: 8px 16px;
+}

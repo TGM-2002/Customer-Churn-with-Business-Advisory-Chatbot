@@ -14,6 +14,7 @@ RAW_DATA_DIR=DATA_DIR /'raw'
 PROCESSED_DATA_DIR=DATA_DIR /'processed'
 MODELS_DIR=BASE_DIR / ' models'
 SRC_DIR=BASE_DIR / 'src'
+RAW_DATASET_DIR=RAW_DATA_DIR/ 'Bank-Customer-Attrition-Insights-Data.csv'
 
 # =============================================================
 # DATABASE SET UP
@@ -58,4 +59,35 @@ for dir in [CONFIG_DIR,DATABASE_DIR,SCRIPTS_DIR,DATA_DIR,RAW_DATA_DIR,PROCESSED_
     
     
 
+# ============================================================================
+# HUGGING FACE / LLM CONFIGURATION
+# ============================================================================
 
+HF_TOKEN = os.getenv("HF_TOKEN")
+HF_MODEL = os.getenv("HF_MODEL", "mistralai/Mistral-7B-Instruct-v0.3")
+
+
+# ============================================================================
+# CHROMADB / RAG CONFIGURATION
+# ============================================================================
+
+CHROMADB_PATH    = DATA_DIR / "chroma_db"
+COLLECTION_NAME  = os.getenv("COLLECTION_NAME", "banking_strategy")
+EMBEDDING_MODEL  = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
+
+STRATEGY_DOCS_DIR = DATA_DIR / "strategy_documents"
+
+
+# ============================================================================
+# FEATURE EXCLUSIONS (used when reconstructing the model's feature row)
+# ============================================================================
+
+COLUMNS_TO_EXCLUDE = [
+    "customer_id", "surname", "churn_probability",
+    "churn_risk_band", "top_churn_driver",
+]
+
+
+for dir in [CONFIG_DIR, DATABASE_DIR, SCRIPTS_DIR, DATA_DIR, RAW_DATA_DIR,
+            PROCESSED_DATA_DIR, MODELS_DIR, SRC_DIR, CHROMADB_PATH, STRATEGY_DOCS_DIR]:
+    dir.mkdir(parents=True, exist_ok=True)
