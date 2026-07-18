@@ -1,15 +1,17 @@
-# Home.py  —  ChurnWatch landing page
+# Home.py Customer Retention System landing page
+# This is the first page the user sees. It shows the system name, navigation cards
+# to every other page, and a quick portfolio snapshot at the bottom.
 
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent))
 
 import streamlit as st
-from utils.helpers import load_css, render_sidebar
+from utils.helpers import load_css, render_sidebar, NAV_ICONS
 
 st.set_page_config(
-    page_title="ChurnWatch",
-    page_icon="📊",
+    page_title="Customer Retention System",
+    page_icon=":material/analytics:",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -17,77 +19,83 @@ st.set_page_config(
 load_css()
 render_sidebar()
 
-# ── Hero ───────────────────────────────────────────────────────────────────────
+# Hero header 
+# Shows the system name "Customer Retention System" in large gradient text at the top
+# of the page, with the slogan directly underneath it.
 
-_, mid, _ = st.columns([1, 2, 1])
-with mid:
-    st.markdown(
-        """
-        <div style="text-align:center;padding:48px 0 32px;">
-            <div style="width:56px;height:56px;border-radius:16px;
-                         background:rgba(77,138,126,0.1);border:1px solid rgba(77,138,126,0.22);
-                         display:flex;align-items:center;justify-content:center;
-                         font-size:24px;margin:0 auto 20px;">📊</div>
-            <h1 style="font-size:32px!important;font-weight:300!important;
-                        color:#1e1f2e!important;letter-spacing:0.04em;margin:0 0 8px;">
-                ChurnWatch
-            </h1>
-            <p style="font-size:14px;color:#8a8b9a;letter-spacing:0.06em;
-                       text-transform:uppercase;margin:0 0 32px;">
-                Customer Churn Advisory System
-            </p>
-            <div style="border-top:1px solid #e8e9f2;margin-bottom:32px;"></div>
-            <p style="font-size:13px;color:#6b6c80;line-height:1.7;margin:0 0 40px;">
-                Predict customer churn, visualise risk segments with Self-Organizing Maps,
-                and generate AI-powered retention strategies for your retail banking portfolio.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+st.markdown(
+    """
+    <div style="text-align:center;padding:48px 0 32px;">
+        <h1 style="font-size:42px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;
+                    margin:0 0 10px;background:linear-gradient(135deg,#1a1826 0%,#5b21b6 45%,#a855f7 100%);
+                    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                    background-clip:text;">
+            Customer Retention System
+        </h1>
+        <p style="font-size:13px;color:#1a1826;letter-spacing:0.20em;text-transform:uppercase;
+                   font-weight:500;margin:0;">
+            Retain &nbsp;·&nbsp; Relate &nbsp;·&nbsp; Grow
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-    # ── Navigation cards ───────────────────────────────────────────────────────
+# Navigation cards 
+# Draws four equal-sized cards side by side , one for each main page.
+# Each card has an icon, a title, a short description, and an "Open" button that
+# takes the user straight to that page when clicked.
 
-    c1, c2, c3 = st.columns(3)
+st.markdown('<p class="cw-section-label" style="text-align:center;">Navigate</p>',
+            unsafe_allow_html=True)
 
-    for col, icon, label, desc, page, color in [
-        (c1, "📈", "Dashboard",   "KPIs, SOM visualisations,\nand churn analytics",       "pages/1_Dashboard.py",   "#4d8a7e"),
-        (c2, "👤", "Customers",   "Search, filter, and view\nindividual customer risk",   "pages/2_Customers.py",   "#6a8fcb"),
-        (c3, "🤖", "AI Advisory", "Why customers churn\nand how to retain them",         "pages/3_AI_Advisory.py", "#b08040"),
-    ]:
-        with col:
-            st.markdown(
-                f"""
-                <div style="background:#ffffff;border:1px solid #e4e5f0;border-radius:12px;
-                             padding:22px 20px;text-align:center;height:100%;">
-                    <div style="font-size:22px;margin-bottom:10px;">{icon}</div>
-                    <p style="font-size:13px;font-weight:600;color:#1e1f2e;margin:0 0 6px;">{label}</p>
-                    <p style="font-size:11px;color:#a0a1b0;line-height:1.6;margin:0 0 16px;
-                               white-space:pre-line;">{desc}</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-            if st.button(f"Open {label}", key=f"btn_{label}", use_container_width=True):
-                st.switch_page(page)
+c1, c2, c3, c4 = st.columns(4, gap="medium")
 
-    # ── Portfolio snapshot ─────────────────────────────────────────────────────
+nav_items = [
+    (c1, "dashboard",  "Dashboard",
+     "KPIs and churn analytics\nacross your portfolio",          "pages/1_Dashboard.py"),
+    (c2, "customers",  "Customers",
+     "Search, filter, and review\nindividual customer risk",     "pages/2_Customers.py"),
+    (c3, "advisory",   "AI Advisory",
+     "Understand why customers churn\nand how to retain them",   "pages/3_AI_Advisory.py"),
+    (c4, "inbox",      "Inbox",
+     "Weekly automated churn alerts\norganised by risk category","pages/4_Inbox.py"),
+]
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown(
-        '<p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;'
-        'color:#b0b1c0;text-align:center;margin-bottom:14px;">Portfolio Snapshot</p>',
-        unsafe_allow_html=True,
-    )
+for col, icon_key, label, desc, page in nav_items:
+    with col:
+        st.markdown(
+            f"""
+            <div class="cw-nav-card">
+                <div class="cw-nav-card-icon">{NAV_ICONS[icon_key]}</div>
+                <p class="cw-nav-card-title">{label}</p>
+                <p class="cw-nav-card-desc">{desc}</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("<div style='margin-top:8px;'></div>", unsafe_allow_html=True)
+        if st.button(f"Open {label}", key=f"btn_{label}", use_container_width=True):
+            st.switch_page(page)
 
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Total Customers",  "2,847", "+124 this month")
-    m2.metric("At Risk",          "436",   "+38 from last month",          delta_color="inverse")
-    m3.metric("Churn Rate",       "15.3%", "+0.4pp month-on-month",        delta_color="inverse")
-    m4.metric("Revenue at Risk",  "R12.4M", "Critical attention needed",   delta_color="inverse")
+# Portfolio snapshot 
+# Shows four key numbers for the whole customer portfolio at a glance 
+# total customers, how many are at risk, the overall churn rate, and revenue at risk.
 
-    st.markdown(
-        '<p style="font-size:10px;color:#c0c1d0;text-align:center;margin-top:24px;">'
-        'Last updated 15 Jun 2026 · ChurnWatch v1.0</p>',
-        unsafe_allow_html=True,
-    )
+st.markdown("<div style='margin-top:36px;'></div>", unsafe_allow_html=True)
+st.markdown(
+    '<p class="cw-section-label" style="text-align:center;">Portfolio Snapshot · Jun 2026</p>',
+    unsafe_allow_html=True,
+)
+
+m1, m2, m3, m4 = st.columns(4, gap="medium")
+m1.metric("Total Customers",  "2,847", "+124 this month")
+m2.metric("At Risk",          "436",   "+38 from last month",        delta_color="inverse")
+m3.metric("Churn Rate",       "15.3%", "+0.4pp month-on-month",      delta_color="inverse")
+m4.metric("Revenue at Risk",  "R12.4M", "Critical attention needed", delta_color="inverse")
+
+st.markdown(
+    '<p style="font-size:10px;color:#9992b0;text-align:center;margin-top:20px;">'
+    'Customer Retention System v1.0 · AI-Powered Churn Intelligence</p>',
+    unsafe_allow_html=True,
+)

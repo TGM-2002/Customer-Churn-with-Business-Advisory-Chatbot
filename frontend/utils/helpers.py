@@ -1,37 +1,171 @@
 # utils/helpers.py
 
+import base64
 import streamlit as st
 import pandas as pd
 from pathlib import Path
 
 
-# ── CSS loader ──────────────────────────────────────────────────────────────
+# CSS loader 
 
 def load_css():
-    """Inject the ChurnWatch stylesheet into every page."""
+    # Reading the style.css file from the assets folder and injects it into the page
+    # so all custom colours, fonts, and layout styles take effect.
     css_path = Path(__file__).parent.parent / "assets" / "style.css"
     with open(css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 
-# ── Sidebar brand + user ─────────────────────────────────────────────────────
+# Logo helpers 
+
+def get_logo_b64() -> str | None:
+    """Return base64-encoded CRS logo PNG, or None if not found.
+    Looks for logo.png then crs_logo.png in frontend/assets/.
+    Replace frontend/assets/logo.png with the CRS logo image to activate.
+    """
+    # Looks for the CRS logo PNG in the assets folder and converts it to a base64
+    # string so it can be embedded directly in HTML without needing a file path.
+    # Returns None if no logo file is found, letting the caller fall back to an SVG.
+    assets = Path(__file__).parent.parent / "assets"
+    for name in ("logo.png", "crs_logo.png"):
+        p = assets / name
+        if p.exists():
+            with open(p, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+    return None
+
+
+# SVG logo mark used in sidebar when PNG is not yet saved
+_LOGO_MARK_SVG = """<svg width="22" height="22" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lm" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <path d="M38 10 A18 18 0 1 0 38 50" stroke="#ede9fe" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="30" r="5" fill="url(#lm)"/>
+  <path d="M14 54 Q30 64 50 46" stroke="url(#lm)" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>"""
+
+
+# SVG icons 
+
+ICONS = {
+    "dashboard": (
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" '
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'
+        '<line x1="18" y1="20" x2="18" y2="10"/>'
+        '<line x1="12" y1="20" x2="12" y2="4"/>'
+        '<line x1="6" y1="20" x2="6" y2="14"/>'
+        '</svg>'
+    ),
+    "customers": (
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" '
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'
+        '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>'
+        '<circle cx="9" cy="7" r="4"/>'
+        '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>'
+        '<path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+        '</svg>'
+    ),
+    "advisory": (
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" '
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'
+        '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>'
+        '<line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>'
+        '<line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>'
+        '<line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>'
+        '<line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>'
+        '</svg>'
+    ),
+    "inbox": (
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" '
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'
+        '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/>'
+        '<path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89'
+        'A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>'
+        '</svg>'
+    ),
+}
+
+NAV_ICONS = {
+    "dashboard": (
+        '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" '
+        'stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+        '<line x1="18" y1="20" x2="18" y2="10"/>'
+        '<line x1="12" y1="20" x2="12" y2="4"/>'
+        '<line x1="6" y1="20" x2="6" y2="14"/>'
+        '</svg>'
+    ),
+    "customers": (
+        '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" '
+        'stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+        '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>'
+        '<circle cx="9" cy="7" r="4"/>'
+        '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+        '</svg>'
+    ),
+    "advisory": (
+        '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" '
+        'stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+        '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>'
+        '<line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>'
+        '<line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>'
+        '<line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>'
+        '<line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>'
+        '</svg>'
+    ),
+    "inbox": (
+        '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" '
+        'stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+        '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/>'
+        '<path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89'
+        'A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>'
+        '</svg>'
+    ),
+}
+
+
+# Sidebar
 
 def render_sidebar():
-    """Render the ChurnWatch brand header and Admin user block in the sidebar."""
+    # Draws the sidebar that appears on every page , logo at the top, then the
+    # navigation links (Home, Dashboard, Customers, AI Advisory, Inbox) in order,
+    # and the System Administrator block sitting below the last nav link.
+    # Called once at the top of each page file.
+    b64 = get_logo_b64()
+    if b64:
+        st.sidebar.markdown(
+            f"""
+            <div class="cw-sidebar-logo-wrap">
+                <img src="data:image/png;base64,{b64}" alt="CRS Logo"/>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    else:
+        st.sidebar.markdown(
+            f"""
+            <div class="cw-sidebar-brand">
+                <div class="cw-logo-box">{_LOGO_MARK_SVG}</div>
+                <div>
+                    <span class="cw-brand-name">CRS</span>
+                    <span class="cw-brand-full">Customer Retention System</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    # Custom nav , rendered in our desired order (replaces the auto-generated nav)
+    st.sidebar.page_link("Home.py",              label="Home")
+    st.sidebar.page_link("pages/1_Dashboard.py", label="Dashboard")
+    st.sidebar.page_link("pages/2_Customers.py", label="Customers")
+    st.sidebar.page_link("pages/3_AI_Advisory.py", label="AI Advisory")
+    st.sidebar.page_link("pages/4_Inbox.py",     label="Inbox")
+    # System Administrator always renders after Inbox
     st.sidebar.markdown(
         """
-        <div class="cw-sidebar-brand">
-            <div class="cw-logo-box">📊</div>
-            <span class="cw-brand-name">ChurnWatch</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.sidebar.markdown("<hr class='cw-sb-divider'>", unsafe_allow_html=True)
-
-    st.sidebar.markdown(
-        """
-        <hr class='cw-sb-divider'>
         <div class="cw-sidebar-user">
             <div class="cw-user-av">AD</div>
             <div>
@@ -39,25 +173,24 @@ def render_sidebar():
                 <p class="cw-user-role">System Administrator</p>
             </div>
         </div>
-        <p class="cw-sidebar-ver">ChurnWatch v1.0</p>
         """,
         unsafe_allow_html=True,
     )
 
 
-# ── Mock customer data ────────────────────────────────────────────────────────
+# Color maps 
 
 RISK_COLORS = {
-    "Critical": {"bg": "#fef1ef", "color": "#b85a48", "av_bg": "rgba(192,104,88,0.12)"},
-    "High":     {"bg": "#fef5e8", "color": "#b08040", "av_bg": "rgba(192,144,88,0.12)"},
-    "Medium":   {"bg": "#eef2fc", "color": "#5a7abf", "av_bg": "rgba(106,143,203,0.12)"},
-    "Low":      {"bg": "#edf7f0", "color": "#4a8a5a", "av_bg": "rgba(90,164,100,0.12)"},
+    "Critical": {"bg": "#fef2f2", "color": "#dc2626", "av_bg": "rgba(220,38,38,0.10)"},
+    "High":     {"bg": "#fff7ed", "color": "#ea580c", "av_bg": "rgba(234,88,12,0.10)"},
+    "Medium":   {"bg": "#fffbeb", "color": "#d97706", "av_bg": "rgba(217,119,6,0.10)"},
+    "Low":      {"bg": "#f0fdf4", "color": "#16a34a", "av_bg": "rgba(22,163,74,0.10)"},
 }
 
 SEG_COLORS = {
-    "Affluent": {"bg": "#f0eeff", "color": "#5848b0"},
-    "Mid":      {"bg": "#eef2fc", "color": "#5a7abf"},
-    "Mass":     {"bg": "#edf7f0", "color": "#4a8a5a"},
+    "Affluent": {"bg": "#f5f3ff", "color": "#5b21b6"},
+    "Mid":      {"bg": "#e0f2fe", "color": "#0369a1"},
+    "Mass":     {"bg": "#f0fdf4", "color": "#16a34a"},
 }
 
 DRIVER_LABELS = {
@@ -70,6 +203,150 @@ DRIVER_LABELS = {
     "high_engagement":      "High engagement",
     "high_balance":         "High balance customer",
 }
+
+STEP_TAG_STYLES = {
+    "Call":       {"bg": "#f5f3ff", "color": "#6d28d9"},
+    "Resolve":    {"bg": "#fef2f2", "color": "#b91c1c"},
+    "Offer":      {"bg": "#f0fdf4", "color": "#15803d"},
+    "Cross-sell": {"bg": "#fffbeb", "color": "#b45309"},
+    "Follow up":  {"bg": "#fff7ed", "color": "#c2410c"},
+    "Escalate":   {"bg": "#faf9f6", "color": "#78716c"},
+}
+
+
+# Inbox data 
+
+INBOX_MESSAGES = [
+    {
+        "id": 1,
+        "week": "09 Jun – 15 Jun 2026",
+        "sent": "Mon 15 Jun · 07:00",
+        "subject": "Weekly Churn Alert — 3 Critical, 4 High Risk Customers",
+        "unread": True,
+        "critical_count": 3,
+        "high_count": 4,
+        "new_entries": 7,
+        "improvement": 2,
+        "top_customers": [
+            {"name": "Rendani Radzuma",  "risk": "Critical", "prob": 91, "driver": "Inactive member",            "initials": "RR"},
+            {"name": "Thabo Dlamini",    "risk": "Critical", "prob": 87, "driver": "Inactive member",            "initials": "TD"},
+            {"name": "Sello Mahlangu",   "risk": "High",     "prob": 79, "driver": "Complaint + dissatisfied",   "initials": "SM"},
+            {"name": "Naledi Mokoena",   "risk": "High",     "prob": 74, "driver": "Zero account balance",       "initials": "NM"},
+            {"name": "Palesa Motsepe",   "risk": "High",     "prob": 61, "driver": "Zero account balance",       "initials": "PM"},
+        ],
+        "summary": (
+            "This week's analysis identified 7 customers in the High and Critical risk bands requiring urgent intervention. "
+            "Rendani Radzuma and Thabo Dlamini remain the most urgent cases — both show extended inactivity exceeding 18 months. "
+            "Sello Mahlangu has an unresolved complaint with a satisfaction score of 2, placing him at imminent churn risk. "
+            "We recommend prioritising all Critical accounts for personal relationship manager contact within 24 hours."
+        ),
+        "action": "3 Critical accounts require relationship manager contact by Wednesday 17 Jun.",
+    },
+    {
+        "id": 2,
+        "week": "02 Jun – 08 Jun 2026",
+        "sent": "Mon 08 Jun · 07:00",
+        "subject": "Weekly Churn Alert — 2 Critical, 5 High Risk Customers",
+        "unread": True,
+        "critical_count": 2,
+        "high_count": 5,
+        "new_entries": 3,
+        "improvement": 1,
+        "top_customers": [
+            {"name": "Rendani Radzuma",  "risk": "Critical", "prob": 89, "driver": "Inactive member",            "initials": "RR"},
+            {"name": "Thabo Dlamini",    "risk": "Critical", "prob": 85, "driver": "Inactive member",            "initials": "TD"},
+            {"name": "Naledi Mokoena",   "risk": "High",     "prob": 72, "driver": "Zero account balance",       "initials": "NM"},
+            {"name": "Sello Mahlangu",   "risk": "High",     "prob": 71, "driver": "Complaint + dissatisfied",   "initials": "SM"},
+            {"name": "Zanele Nkosi",     "risk": "High",     "prob": 62, "driver": "Complaint + dissatisfied",   "initials": "ZN"},
+        ],
+        "summary": (
+            "Week of 02–08 June saw 3 new customers enter at-risk bands. "
+            "Palesa Motsepe moved from Medium to High after her account balance dropped to zero. "
+            "Kagiso Khumalo showed improved engagement after the loyalty rewards outreach — a positive outcome. "
+            "Follow-up is recommended for all High band customers before month end."
+        ),
+        "action": "Palesa Motsepe's account balance dropped to zero — contact within 48 hours.",
+    },
+    {
+        "id": 3,
+        "week": "26 May – 01 Jun 2026",
+        "sent": "Mon 01 Jun · 07:00",
+        "subject": "Weekly Churn Alert — 2 Critical, 3 High Risk Customers",
+        "unread": False,
+        "critical_count": 2,
+        "high_count": 3,
+        "new_entries": 1,
+        "improvement": 2,
+        "top_customers": [
+            {"name": "Rendani Radzuma",  "risk": "Critical", "prob": 88, "driver": "Inactive member",          "initials": "RR"},
+            {"name": "Thabo Dlamini",    "risk": "Critical", "prob": 83, "driver": "Inactive member",          "initials": "TD"},
+            {"name": "Sello Mahlangu",   "risk": "High",     "prob": 70, "driver": "Complaint + dissatisfied", "initials": "SM"},
+            {"name": "Naledi Mokoena",   "risk": "High",     "prob": 68, "driver": "Zero account balance",     "initials": "NM"},
+            {"name": "Palesa Motsepe",   "risk": "Medium",   "prob": 55, "driver": "Zero account balance",     "initials": "PM"},
+        ],
+        "summary": (
+            "The final week of May showed stabilisation with 2 customers improving their risk band. "
+            "Zanele Nkosi's complaint was resolved, moving her from High to Medium risk. "
+            "Kagiso Khumalo responded positively to the loyalty reactivation campaign. "
+            "Focus for the coming week should remain on the two Critical accounts."
+        ),
+        "action": "Zanele Nkosi complaint resolved — schedule a satisfaction follow-up call.",
+    },
+    {
+        "id": 4,
+        "week": "19 May – 25 May 2026",
+        "sent": "Mon 25 May · 07:00",
+        "subject": "Weekly Churn Alert — 3 Critical, 4 High Risk Customers",
+        "unread": False,
+        "critical_count": 3,
+        "high_count": 4,
+        "new_entries": 5,
+        "improvement": 0,
+        "top_customers": [
+            {"name": "Rendani Radzuma",  "risk": "Critical", "prob": 90, "driver": "Inactive member",            "initials": "RR"},
+            {"name": "Thabo Dlamini",    "risk": "Critical", "prob": 86, "driver": "Inactive member",            "initials": "TD"},
+            {"name": "Zanele Nkosi",     "risk": "Critical", "prob": 80, "driver": "Complaint + dissatisfied",   "initials": "ZN"},
+            {"name": "Sello Mahlangu",   "risk": "High",     "prob": 73, "driver": "Complaint + dissatisfied",   "initials": "SM"},
+            {"name": "Naledi Mokoena",   "risk": "High",     "prob": 69, "driver": "Zero account balance",       "initials": "NM"},
+        ],
+        "summary": (
+            "A difficult week with 5 new customers entering at-risk bands. Zanele Nkosi escalated to Critical after her complaint "
+            "remained unresolved for two weeks, combined with a satisfaction score drop to 1. "
+            "Portfolio-wide churn probability increased 0.3pp week-on-week. "
+            "The Mass segment continues to show elevated risk, particularly in Limpopo and Mpumalanga."
+        ),
+        "action": "Zanele Nkosi complaint unresolved for 14 days — immediate branch manager intervention required.",
+    },
+    {
+        "id": 5,
+        "week": "12 May – 18 May 2026",
+        "sent": "Mon 18 May · 07:00",
+        "subject": "Weekly Churn Alert — 2 Critical, 3 High Risk Customers",
+        "unread": False,
+        "critical_count": 2,
+        "high_count": 3,
+        "new_entries": 2,
+        "improvement": 1,
+        "top_customers": [
+            {"name": "Rendani Radzuma",  "risk": "Critical", "prob": 88, "driver": "Inactive member",          "initials": "RR"},
+            {"name": "Thabo Dlamini",    "risk": "Critical", "prob": 84, "driver": "Inactive member",          "initials": "TD"},
+            {"name": "Sello Mahlangu",   "risk": "High",     "prob": 71, "driver": "Complaint + dissatisfied", "initials": "SM"},
+            {"name": "Naledi Mokoena",   "risk": "High",     "prob": 66, "driver": "Zero account balance",     "initials": "NM"},
+            {"name": "Kagiso Khumalo",   "risk": "Medium",   "prob": 45, "driver": "Low loyalty engagement",   "initials": "KK"},
+        ],
+        "summary": (
+            "Week of 12–18 May was stable with 2 new at-risk entries and 1 improvement. "
+            "Both Critical accounts remain unchanged from the previous week. "
+            "Ntombi Majola improved from Medium to Low risk after successfully opening a second product account — "
+            "a direct result of the cross-sell outreach. Outreach effectiveness: 1 of 3 High-risk customers showed "
+            "measurable improvement this week."
+        ),
+        "action": "Ntombi Majola cross-sell successful — second product opened. Document in CRM.",
+    },
+]
+
+
+#Mock customer data
 
 RAW_CUSTOMERS = [
     {
@@ -361,8 +638,11 @@ RAW_CUSTOMERS = [
 ]
 
 
+#Helper functions 
+
 def get_customers_df() -> pd.DataFrame:
-    """Return customers as a display-ready DataFrame."""
+    # Converting the RAW_CUSTOMERS list into a tidy pandas DataFrame with display-ready
+    # column names and formatted values, ready to be passed to st.dataframe().
     rows = []
     for c in RAW_CUSTOMERS:
         rows.append({
@@ -379,6 +659,8 @@ def get_customers_df() -> pd.DataFrame:
 
 
 def get_customer_by_name(name: str) -> dict | None:
+    # Searching RAW_CUSTOMERS for a customer whose name matches exactly.
+    # Returns the full customer dictionary if found, or None if not.
     for c in RAW_CUSTOMERS:
         if c["name"] == name:
             return c
@@ -386,16 +668,6 @@ def get_customer_by_name(name: str) -> dict | None:
 
 
 def get_customer_names() -> list[str]:
+    # Returning a plain list of every customer's name from RAW_CUSTOMERS.
+    # Used to populate dropdown menus on pages that let the user pick a customer.
     return [c["name"] for c in RAW_CUSTOMERS]
-
-
-# ── Tag styling ───────────────────────────────────────────────────────────────
-
-STEP_TAG_STYLES = {
-    "Call":       {"bg": "#eef2fc", "color": "#5a7abf"},
-    "Resolve":    {"bg": "#fef1ef", "color": "#b85a48"},
-    "Offer":      {"bg": "#edf7f0", "color": "#4a8a5a"},
-    "Cross-sell": {"bg": "#fef5e8", "color": "#b08040"},
-    "Follow up":  {"bg": "#f0eeff", "color": "#5848b0"},
-    "Escalate":   {"bg": "#f4f4f8", "color": "#6b6c80"},
-}
